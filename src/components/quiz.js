@@ -29,14 +29,14 @@ const styles = theme => ({
         marginRight: theme.spacing.unit,
     },
     definition: {
-        maxWidth: 200,
+        maxWidth: 100,
         transition: 'all 3s ease-in',
     },
 });
 
 class Quiz extends React.Component {
 
-    getQuizLines = (data, classes, isLoading, setDefinition, definitions) => {
+    getQuizLines = (data, classes, isLoading, setDefinition, definitions, cycleDefinition) => {
         return (
             <TableWithLoading className={classes.table} isLoading={isLoading} type='circular' loadingThickness={10}>
                 <TableHead>
@@ -64,6 +64,7 @@ class Quiz extends React.Component {
                                         definitions={definitions}
                                         word={word.word}
                                         setDefinition={setDefinition}
+                                        cycleDefinition={cycleDefinition}
                                     />
                                 </TableCellWithLoading>
                             </TableRow>
@@ -75,7 +76,14 @@ class Quiz extends React.Component {
     };
 
     render () {
-        const { classes, words, definitions, isLoading, setDefinition } = this.props;
+        const { 
+            classes, 
+            words, 
+            definitions, 
+            isLoading, 
+            setDefinition, 
+            cycleDefinition 
+        } = this.props;
         let id = -1;
         const data = [...Array(words.length)].map( (val, index) => {
             id += 1;
@@ -93,7 +101,14 @@ class Quiz extends React.Component {
                 </Button>
                 {
                     words.length > 0 || isLoading === true
-                    ? this.getQuizLines(data, classes, isLoading, setDefinition, definitions)
+                    ? this.getQuizLines(
+                        data, 
+                        classes, 
+                        isLoading, 
+                        setDefinition, 
+                        definitions, 
+                        cycleDefinition
+                    )
                     : <div className={classes.root}>
                         <Typography variant="caption">
                             Press Generate Quiz

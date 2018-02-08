@@ -54,8 +54,17 @@ class Index extends React.Component {
   }
 
   shuffleDefinitions = () => {
-    this.setState( { definitions: [...this.state.definitions].sort(() => (Math.random() - 0.5)) } )
+    this.setState({ definitions: [...this.state.definitions].sort(() => (Math.random() - 0.5)) })
     console.log(this.state.definitions);
+  }
+
+  cycleDefinition = (id) => {
+    const definitions = [...this.state.definitions];
+    console.log(definitions[id].selection);
+    definitions[id].selection < definitions[id].text.length - 1
+      ? definitions[id].selection += 1
+      : definitions[id].selection = 0;
+    this.setState({definitions})
   }
 
   unshuffleDefinitions = (wordDefinitions) => {
@@ -155,6 +164,7 @@ class Index extends React.Component {
             generateQuiz={this.generateQuiz}
             setDefinition={this.setDefinition}
             shuffleDefinitions={this.shuffleDefinitions}
+            cycleDefinition={this.cycleDefinition}
             unshuffleDefinitions={this.unshuffleDefinitions}
           />
       </div>

@@ -5,10 +5,17 @@ import { Loading } from './loading';
 import { withStyles } from 'material-ui/styles';
 
 const styles = theme => ({
-    menu: {
-        width: 200,
+    '@keyframes fadeIn': {
+        from: {opacity: 0},
+        to: {opacity: 1},
     },
-});
+    definition: {
+        opacity: 0,
+        animation: 'fadeIn ease-in 1',
+        animationFillMode: 'forwards',
+        animationDuration: '0.5s',
+    },
+}); 
 
 
 class Definition extends React.Component {
@@ -18,8 +25,12 @@ class Definition extends React.Component {
         setDefinition(id, word);
     }
 
+    handleClick(id) {
+        this.props.cycleDefinition(id);
+    }
+
     render() {
-        const {definitions, id} = this.props;
+        const {definitions, id, classes} = this.props;
         let selection = 
             definitions[id]
             ? definitions[id].selection
@@ -28,7 +39,12 @@ class Definition extends React.Component {
         return (
                 !definitions[id] || !definitions[id].text || definitions[id].isLoading
                 ? <Loading thickness={3} />
-                : <Typography>{definitions[id].text[selection]}</Typography>
+                : <Typography 
+                    className={classes.definition}
+                    onClick={(e) => this.handleClick(id)}
+                >
+                    {definitions[id].text[selection]}
+                </Typography>
 
         )
     }
