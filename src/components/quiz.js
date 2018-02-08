@@ -73,7 +73,7 @@ class Quiz extends React.Component {
 
     render () {
         const { classes, words, definitions, isLoading, setDefinition } = this.props;
-        let id = 0;
+        let id = -1;
         const data = [...Array(words.length)].map( (val, index) => {
             id += 1;
             console.log(data);
