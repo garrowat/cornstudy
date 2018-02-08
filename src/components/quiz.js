@@ -6,6 +6,8 @@ import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import withStyles from 'material-ui/styles/withStyles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Icon from 'material-ui/Icon';
+import IconButton from 'material-ui/Icon';
 
 const styles = theme => ({
     root: {
@@ -27,7 +29,7 @@ const styles = theme => ({
         marginRight: theme.spacing.unit,
     },
     definition: {
-        maxWidth: 100,
+        maxWidth: 200,
         transition: 'all 3s ease-in',
     },
 });

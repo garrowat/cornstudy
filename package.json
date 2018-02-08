@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "jss": "latest",
+    "material-design-icons": "^3.0.1",
     "material-ui": "^1.0.0-beta.32",
+    "material-ui-icons": "^1.0.0-beta.17",
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",

@@ -14,7 +14,7 @@ const styles = theme => ({
   root: {
     textAlign: 'center',
     paddingTop: theme.spacing.unit * 2.5,
-    paddingBottom: theme.spacing.unit * 5,
+    paddingBottom: theme.spacing.unit * 3,
   },
 });
 
@@ -25,7 +25,6 @@ class Index extends React.Component {
     this.state = {
       quizLength: 1,
       words:[],
-      definitions:[],
       originalDefinitions: [],
       isLoading: false,
       error: '',
@@ -85,8 +84,9 @@ class Index extends React.Component {
   }
 
   setDefinition = (id, word) => {
+    const selection = 0;
     let definitions = [...this.state.definitions] || [];
-    definitions[id] = {id: id, isLoading: true};
+    definitions[id] = {id, isLoading: true, selection};
     this.setState({ definitions })
     fetch(baseUrl + word + defUrl)
       .then( (response) => {
@@ -99,12 +99,14 @@ class Index extends React.Component {
         let definitions = [...this.state.definitions];
         const text = 
           entries !== [] 
-          ? entries[0].text
+          ? entries.map(entry => entry.text)
           : 'Word not found';
-        definitions[id] = { id, text, isLoading: false };
+        definitions[id] = { id, text, isLoading: false, selection};
+        console.log(definitions);
         this.setState({ definitions });
       })
       .catch(function(error) {
+        definitions[id] = {...this.state.definitions, error};
         console.log('Error fetching definition: ' + error.message);
       })
   }

@@ -1,10 +1,17 @@
 import React from 'react';
 import Typography from 'material-ui/Typography/Typography';
+import TextFIeld from 'material-ui/TextField';
 import { Loading } from './loading';
+import { withStyles } from 'material-ui/styles';
+
+const styles = theme => ({
+    menu: {
+        width: 200,
+    },
+});
 
 
-
-export default class Definition extends React.Component {
+class Definition extends React.Component {
 
     componentDidMount() {
         const { id, word, setDefinition } = this.props;
@@ -13,14 +20,18 @@ export default class Definition extends React.Component {
 
     render() {
         const {definitions, id} = this.props;
+        let selection = 
+            definitions[id]
+            ? definitions[id].selection
+            : 0;
+
         return (
-            <div>
-                {
-                    !definitions[id] || definitions[id].isLoading
-                    ? <Loading thickness={3} />
-                    : <Typography>{definitions[id].text}</Typography>
-                }
-            </div>
+                !definitions[id] || !definitions[id].text || definitions[id].isLoading
+                ? <Loading thickness={3} />
+                : <Typography>{definitions[id].text[selection]}</Typography>
+
         )
     }
 }
+
+export default withStyles(styles)(Definition);
