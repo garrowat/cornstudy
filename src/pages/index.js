@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import withRoot from '../withRoot';
+import Hidden from 'material-ui/Hidden';
 
 const baseUrl = `https://api.wordnik.com/v4/word.json/`;
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -153,9 +154,16 @@ class Index extends React.Component {
 
     return (
       <div className={classes.root}>
-          <Typography variant="display4">
-            CornStudy
-          </Typography>
+          <Hidden smDown>
+            <Typography variant="display4">
+              CornStudy
+            </Typography>
+          </Hidden>
+          <Hidden mdUp>
+            <Typography variant="display3">
+              CornStudy
+            </Typography>
+          </Hidden>
           <Quiz 
             classes={classes}
             words={words}
