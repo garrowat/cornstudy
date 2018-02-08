@@ -15,6 +15,7 @@ const styles = theme => ({
     quiz: {
         margin: 'auto',
         maxWidth: 700,
+        paddingBottom: theme.spacing.unit * 3,
     },
     table: {
         maxWidth: 600,
@@ -35,7 +36,7 @@ class Quiz extends React.Component {
 
     getQuizLines = (data, classes, isLoading, setDefinition, definitions) => {
         return (
-            <TableWithLoading className={classes.table} isLoading={isLoading} loadingThickness={10}>
+            <TableWithLoading className={classes.table} isLoading={isLoading} type='circular' loadingThickness={10}>
                 <TableHead>
                     <TableRow>
                         <TableCell>

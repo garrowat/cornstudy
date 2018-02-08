@@ -1,10 +1,12 @@
 import React from 'react';
-import { CircularProgress } from 'material-ui/Progress';
+import { CircularProgress, LinearProgress } from 'material-ui/Progress';
 
-export const Loading = (props) => 
-        <CircularProgress  color="secondary" thickness={props.thickness} style={{display: 'block', margin: 'auto'}}/>
+export const Loading = ({ thickness, type, ...rest }) =>
+    type === 'circular'
+    ? <CircularProgress  color="secondary" thickness={thickness} style={{display: 'block', margin: 'auto'}}/>
+    : <LinearProgress color="secondary" thickness={thickness} />
 
-export const withLoading = (Component) => ({ isLoading, loadingThickness, ...rest }) =>
+export const withLoading = (Component) => ({ isLoading, loadingThickness, type, ...rest }) =>
 isLoading
-  ? <Loading thickness={loadingThickness} />
+  ? <Loading thickness={loadingThickness} type={type} />
   : <Component { ...rest } />
