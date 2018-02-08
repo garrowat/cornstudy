@@ -8,7 +8,7 @@ import withRoot from '../withRoot';
 const baseUrl = `https://api.wordnik.com/v4/word.json/`;
 const apiKey = process.env.REACT_APP_API_KEY;
 const defUrl = `/definitions?limit=200&includeRelated=true&useCanonical=false&includeTags=false&api_key=${apiKey}`;
-const randomListUrl = `https://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=7&maxDictionaryCount=-1&minLength=5&maxLength=-1&limit=10&api_key=${apiKey}`;
+const randomListUrl = `https://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=7&maxDictionaryCount=-1&useCanonical=true&minLength=5&maxLength=-1&limit=10&api_key=${apiKey}`;
 
 const styles = theme => ({
   root: {
