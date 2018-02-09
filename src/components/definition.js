@@ -1,5 +1,5 @@
 import React from 'react';
-import Badge from 'material-ui/Badge';
+import Tooltip from 'material-ui/Tooltip';
 import Typography from 'material-ui/Typography/Typography';
 import TextFIeld from 'material-ui/TextField';
 import { Loading } from './loading';
@@ -40,14 +40,14 @@ class Definition extends React.Component {
         return (
                 !definitions[id] || !definitions[id].text || definitions[id].isLoading
                 ? <Loading thickness={3} />
-                : <Badge badgeContent={definitions[id].text.length} color="secondary" className={classes.badge}>
+                : <Tooltip title={definitions[id].text.length} placement="right">
                     <Typography 
                         className={classes.definition}
                         onClick={(e) => this.handleClick(id)}
                     >
                         {definitions[id].text[selection]}
                     </Typography>
-                </Badge>
+                </Tooltip>
 
         )
     }
