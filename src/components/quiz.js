@@ -1,13 +1,12 @@
 import React from 'react';
-import Definition from './definition.js'
+import Definition from './definition.js';
+import Word from './word.js';
 import Button from 'material-ui/Button';
 import { withLoading } from './loading.js';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import withStyles from 'material-ui/styles/withStyles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import Icon from 'material-ui/Icon';
-import IconButton from 'material-ui/Icon';
 
 const styles = theme => ({
     root: {
@@ -36,9 +35,23 @@ const styles = theme => ({
 
 class Quiz extends React.Component {
 
-    getQuizLines = (data, classes, isLoading, setDefinition, definitions, cycleDefinition) => {
+    getQuizLines = (
+        words, 
+        classes, 
+        isLoading, 
+        setDefinition, 
+        definitions, 
+        cycleDefinition, 
+        toggleEditing,
+        setWord
+    ) => {
         return (
-            <TableWithLoading className={classes.table} isLoading={isLoading} type='circular' loadingThickness={10}>
+            <TableWithLoading 
+            className={classes.table} 
+            isLoading={isLoading} 
+            type='circular' 
+            loadingThickness={10}
+            >
                 <TableHead>
                     <TableRow>
                         <TableCell>
@@ -54,17 +67,25 @@ class Quiz extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((word, id) => {
+                    {words.map((word) => {
                         return (
                             <TableRow key={word.id}>
-                                <TableCell><Typography>{word.word}</Typography></TableCell>
+                                <TableCell>
+                                    <Word
+                                    id={word.id}
+                                    word={word.word}
+                                    setWord={setWord}
+                                    isEditing={word.isEditing}
+                                    toggleEditing={toggleEditing}
+                                    />
+                                </TableCell>
                                 <TableCellWithLoading numeric className={classes.definition}>
                                     <Definition 
-                                        id={word.id}
-                                        definitions={definitions}
-                                        word={word.word}
-                                        setDefinition={setDefinition}
-                                        cycleDefinition={cycleDefinition}
+                                    id={word.id}
+                                    definitions={definitions}
+                                    word={word.word}
+                                    setDefinition={setDefinition}
+                                    cycleDefinition={cycleDefinition}
                                     />
                                 </TableCellWithLoading>
                             </TableRow>
@@ -80,16 +101,12 @@ class Quiz extends React.Component {
             classes, 
             words, 
             definitions, 
+            toggleEditing,
             isLoading, 
             setDefinition, 
-            cycleDefinition 
+            cycleDefinition,
+            setWord
         } = this.props;
-        let id = -1;
-        const data = [...Array(words.length)].map( (val, index) => {
-            id += 1;
-            console.log(data);
-            return {id, word: words[index]};
-        });
 
         return (
             <Paper className={classes.quiz}>
@@ -102,12 +119,14 @@ class Quiz extends React.Component {
                 {
                     words.length > 0 || isLoading === true
                     ? this.getQuizLines(
-                        data, 
+                        words, 
                         classes, 
                         isLoading, 
                         setDefinition, 
                         definitions, 
-                        cycleDefinition
+                        cycleDefinition,
+                        toggleEditing,
+                        setWord
                     )
                     : <div className={classes.root}>
                         <Typography variant="caption">

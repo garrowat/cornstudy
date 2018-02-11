@@ -1,7 +1,6 @@
 import React from 'react';
 import Tooltip from 'material-ui/Tooltip';
 import Typography from 'material-ui/Typography/Typography';
-import TextFIeld from 'material-ui/TextField';
 import { Loading } from './loading';
 import { withStyles } from 'material-ui/styles';
 
@@ -26,13 +25,13 @@ class Definition extends React.Component {
         setDefinition(id, word);
     }
 
-    handleClick(id) {
+    handleClick = (id) => {
         this.props.cycleDefinition(id);
     }
 
     render() {
         const {definitions, id, classes} = this.props;
-        let selection = 
+        const selection = 
             definitions[id]
             ? definitions[id].selection
             : 0;
@@ -40,10 +39,10 @@ class Definition extends React.Component {
         return (
                 !definitions[id] || !definitions[id].text || definitions[id].isLoading
                 ? <Loading thickness={3} />
-                : <Tooltip title={definitions[id].text.length} placement="right">
+                : <Tooltip title={definitions[id].text.length} placement="right" open style={{"backgroundColor": "blue"}}>
                     <Typography 
                         className={classes.definition}
-                        onClick={(e) => this.handleClick(id)}
+                        onClick={() => this.handleClick(id)}
                     >
                         {definitions[id].text[selection]}
                     </Typography>

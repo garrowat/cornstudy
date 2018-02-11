@@ -34,6 +34,7 @@ class Index extends React.Component {
 
   generateQuiz = () => {
     this.setState({ isLoading: true, words: [], definitions: [] })
+    let id = 0;
 
     fetch(randomListUrl)
     // First we fetch the words
@@ -43,13 +44,13 @@ class Index extends React.Component {
       })
       .then( (entries) => {
         let words = entries.reduce( (result, entry) => {
-          result.push(entry.word);
+          const isEditing = false;
+          const word = entry.word;
+          result.push({id, word, isEditing});
+          id += 1;
           return result;
         },[])
-        return words;
-      })
-      .then( (words) => {
-        this.setState({ words: words, isLoading: false, })
+        this.setState({ words, isLoading: false, });        
       })
       .catch(error => console.log(error));
   }
@@ -80,24 +81,36 @@ class Index extends React.Component {
     let curListLength = this.state.words.length;
     let difference = Math.abs(curListLength - newLength);
 
-    let newWords = curListLength >= newLength ?
-    [...this.state.words].slice(0,curListLength - difference) :
-    [...this.state.words].fill('',curListLength, curListLength + difference)
+    let newWords = 
+      curListLength >= newLength 
+      ? [...this.state.words].slice(0,curListLength - difference) 
+      : [...this.state.words].fill('',curListLength, curListLength + difference)
 
-    this.setState({ quizLength: Number(newLength), words: newWords })
+    this.setState({ quizLength: Number(newLength), words: newWords });
   }
 
-  setWord = (i,word) => {
-    let words = [...this.state.words] || [];
-    words[i] = word || '';
+  toggleEditing = (id) => {
+    const words = [...this.state.words] || [];
+    const word = words[id];
+    word.isEditing = !word.isEditing;
+    words[id] = word || '';
     this.setState({ words });
   }
 
+  setWord = (id, word) => {
+    console.log(word);
+    let words = [...this.state.words] || [];
+    words[id].word = word || '';
+    this.setState({ words });
+  };
+
   setDefinition = (id, word) => {
     const selection = 0;
+    // initialize this definition
     let definitions = [...this.state.definitions] || [];
     definitions[id] = {id, isLoading: true, selection};
-    this.setState({ definitions })
+    this.setState({ definitions });
+
     fetch(baseUrl + word + defUrl)
       .then( (response) => {
         if (response.ok) {
@@ -107,12 +120,13 @@ class Index extends React.Component {
       })
       .then( (entries) => {
         let definitions = [...this.state.definitions];
+
         const text = 
           entries !== [] 
           ? entries.map(entry => entry.text)
           : 'Word not found';
+
         definitions[id] = { id, text, isLoading: false, selection};
-        console.log(definitions);
         this.setState({ definitions });
       })
       .catch(function(error) {
@@ -150,7 +164,7 @@ class Index extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { words } = this.state;
+    const { words, definitions, isLoading } = this.state;
 
     return (
       <div className={classes.root}>
@@ -167,9 +181,11 @@ class Index extends React.Component {
           <Quiz 
             classes={classes}
             words={words}
-            definitions={this.state.definitions}
-            isLoading={this.state.isLoading}
+            definitions={definitions}
+            isLoading={isLoading}
+            toggleEditing={this.toggleEditing}
             generateQuiz={this.generateQuiz}
+            setWord={this.setWord}
             setDefinition={this.setDefinition}
             shuffleDefinitions={this.shuffleDefinitions}
             cycleDefinition={this.cycleDefinition}
