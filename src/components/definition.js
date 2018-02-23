@@ -14,6 +14,7 @@ const styles = theme => ({
         animation: 'fadeIn ease-in 1',
         animationFillMode: 'forwards',
         animationDuration: '0.5s',
+        cursor: 'pointer',
     },
 }); 
 

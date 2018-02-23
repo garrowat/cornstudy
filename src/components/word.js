@@ -18,6 +18,14 @@ const styles = theme => ({
 
 
 class Word extends React.Component {
+    componentDidUpdate() {
+       // if (this.props.isEditing) {this.handleFocus()};
+    }
+
+    handleFocus = () => {
+        this.wordInput.select();
+        console.log(this.wordInput);
+    }
 
     handleClick(id) {
         this.props.toggleEditing(id);
@@ -30,16 +38,23 @@ class Word extends React.Component {
     }
 
     render() {
-        const {word, classes, id, isEditing} = this.props;
+        const {
+            word, 
+            classes, 
+            id, 
+            isEditing
+        } = this.props;
 
         const wordMode = !word || isEditing === true
         ? <form>
-                <TextField 
+            <TextField 
+            inputRef={e => this.wordInput = e}
+            autoFocus={true}
             type="search"
             margin="normal"
             value={word}
             onBlur={() => this.handleClick(id)}
-            onChange={(e) => this.handleChange(e, id)}
+            onFocus={() => console.log(this.wordInput)}
             />
         </form>
         : <Typography 
