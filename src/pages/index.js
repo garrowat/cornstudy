@@ -24,7 +24,7 @@ class Index extends React.Component {
     super();
 
     this.state = {
-      quizLength: 1,
+      quizLength: 10,
       words:[],
       originalDefinitions: [],
       isLoading: false,
@@ -45,8 +45,9 @@ class Index extends React.Component {
       .then( (entries) => {
         let words = entries.reduce( (result, entry) => {
           const isEditing = false;
+          const wasFocused = false;
           const word = entry.word;
-          result.push({id, word, isEditing});
+          result.push({id, word, isEditing, wasFocused});
           id += 1;
           return result;
         },[])
@@ -92,17 +93,18 @@ class Index extends React.Component {
   toggleEditing = (id) => {
     const words = [...this.state.words] || [];
     const word = words[id];
+    word.wasFocused = false;
     word.isEditing = !word.isEditing;
     words[id] = word || '';
     this.setState({ words });
   }
 
   setWord = (id, word) => {
-    console.log(word);
     let words = [...this.state.words] || [];
+    words[id].wasFocused = true;
     words[id].word = word || '';
     this.setState({ words });
-  };
+  }
 
   setDefinition = (id, word) => {
     const selection = 0;

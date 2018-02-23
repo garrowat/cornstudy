@@ -19,12 +19,11 @@ const styles = theme => ({
 
 class Word extends React.Component {
     componentDidUpdate() {
-       // if (this.props.isEditing) {this.handleFocus()};
+        if (!this.props.wasFocused && this.props.isEditing) {this.handleFocus()};
     }
 
     handleFocus = () => {
-        this.wordInput.select();
-        console.log(this.wordInput);
+        this.wordInput.select()
     }
 
     handleClick(id) {
@@ -33,7 +32,6 @@ class Word extends React.Component {
 
     handleChange(e, id) {
         const word = e.target.value;
-        console.log(word);
         this.props.setWord(id, word);
     }
 
@@ -54,7 +52,7 @@ class Word extends React.Component {
             margin="normal"
             value={word}
             onBlur={() => this.handleClick(id)}
-            onFocus={() => console.log(this.wordInput)}
+            onChange={(e) => this.handleChange(e,id)}
             />
         </form>
         : <Typography 
