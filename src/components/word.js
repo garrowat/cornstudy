@@ -28,6 +28,7 @@ class Word extends React.Component {
 
     handleClick(id) {
         this.props.toggleEditing(id);
+        this.props.isEditing && this.props.setDefinition(id, this.props.word);
     }
 
     handleChange(e, id) {

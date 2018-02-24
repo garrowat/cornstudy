@@ -77,6 +77,7 @@ class Quiz extends React.Component {
                                     setWord={setWord}
                                     isEditing={word.isEditing}
                                     wasFocused={word.wasFocused}
+                                    setDefinition={setDefinition}
                                     toggleEditing={toggleEditing}
                                     />
                                 </TableCell>
