@@ -26,9 +26,10 @@ class Word extends React.Component {
         this.wordInput.select()
     }
 
-    handleClick(id) {
+    handleClick(e,id) {
         this.props.toggleEditing(id);
         this.props.isEditing && this.props.setDefinition(id, this.props.word);
+        e.preventDefault();
     }
 
     handleChange(e, id) {
@@ -45,20 +46,20 @@ class Word extends React.Component {
         } = this.props;
 
         const wordMode = !word || isEditing === true
-        ? <form>
+        ? <form onSubmit={(e) => this.handleClick(e,id)}>
             <TextField 
             inputRef={e => this.wordInput = e}
             autoFocus={true}
             type="search"
             margin="normal"
             value={word}
-            onBlur={() => this.handleClick(id)}
+            onBlur={(e) => this.handleClick(e,id)}
             onChange={(e) => this.handleChange(e,id)}
             />
         </form>
         : <Typography 
         className={classes.word}
-        onClick={() => this.handleClick(id)}
+        onClick={(e) => this.handleClick(e,id)}
         >
             {word}
         </Typography>
