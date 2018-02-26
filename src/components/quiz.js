@@ -43,7 +43,8 @@ class Quiz extends React.Component {
         definitions, 
         cycleDefinition, 
         toggleEditing,
-        setWord
+        setWord,
+        quizLength
     ) => {
         return (
             <TableWithLoading 
@@ -107,7 +108,8 @@ class Quiz extends React.Component {
             isLoading, 
             setDefinition, 
             cycleDefinition,
-            setWord
+            setWord,
+            quizLength
         } = this.props;
 
         return (
@@ -128,7 +130,8 @@ class Quiz extends React.Component {
                         definitions, 
                         cycleDefinition,
                         toggleEditing,
-                        setWord
+                        setWord,
+                        quizLength
                     )
                     : <div className={classes.root}>
                         <Typography variant="caption">

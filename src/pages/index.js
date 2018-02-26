@@ -1,10 +1,13 @@
 import React from 'react';
 import Quiz from '../components/quiz';
 import PropTypes from 'prop-types';
+//MUI
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import withRoot from '../withRoot';
 import Hidden from 'material-ui/Hidden';
+//3rd Party
+
 
 const baseUrl = `https://api.wordnik.com/v4/word.json/`;
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -63,7 +66,6 @@ class Index extends React.Component {
 
   cycleDefinition = (id) => {
     const definitions = [...this.state.definitions];
-    console.log(definitions[id].selection);
     definitions[id].selection < definitions[id].text.length - 1
       ? definitions[id].selection += 1
       : definitions[id].selection = 0;
@@ -110,7 +112,10 @@ class Index extends React.Component {
     const selection = 0;
     // initialize this definition
     let definitions = [...this.state.definitions] || [];
-    definitions[id] = {id, isLoading: true, selection};
+    let currentDefinition = definitions.filter(entry => entry.id === id);
+    definitions = definitions.filter(entry => entry.id !== id);
+    currentDefinition = {id, isLoading: true, selection};
+    definitions.push(currentDefinition);
     this.setState({ definitions });
 
     fetch(baseUrl + word + defUrl)
@@ -127,8 +132,11 @@ class Index extends React.Component {
           entries !== [] 
           ? entries.map(entry => entry.text)
           : 'Word not found';
-
-        definitions[id] = { id, text, isLoading: false, selection};
+        
+        definitions = definitions.filter(entry => entry.id !== id);
+        currentDefinition = { id, text, isLoading: false, selection};
+        console.log(currentDefinition)
+        definitions.push(currentDefinition);
         this.setState({ definitions });
       })
       .catch(function(error) {
@@ -166,7 +174,7 @@ class Index extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { words, definitions, isLoading } = this.state;
+    const { words, definitions, isLoading, quizLength } = this.state;
 
     return (
       <div className={classes.root}>
@@ -185,6 +193,7 @@ class Index extends React.Component {
             words={words}
             definitions={definitions}
             isLoading={isLoading}
+            quizLength={quizLength}
             toggleEditing={this.toggleEditing}
             generateQuiz={this.generateQuiz}
             setWord={this.setWord}

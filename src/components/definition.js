@@ -3,6 +3,7 @@ import Tooltip from 'material-ui/Tooltip';
 import Typography from 'material-ui/Typography/Typography';
 import { Loading } from './loading';
 import { withStyles } from 'material-ui/styles';
+import { find } from 'lodash';
 
 const styles = theme => ({
     '@keyframes fadeIn': {
@@ -32,20 +33,23 @@ class Definition extends React.Component {
 
     render() {
         const {definitions, id, classes} = this.props;
+        const definition = find(definitions, {id});
+        console.log(definition);
         const selection = 
-            definitions[id]
-            ? definitions[id].selection
+            definition  
+            ? definition.selection
             : 0;
+        
 
         return (
-                !definitions[id] || !definitions[id].text || definitions[id].isLoading
+                !definition || !definition.text || definition.isLoading
                 ? <Loading thickness={3} />
-                : <Tooltip title={definitions[id].text.length} placement="right" open style={{"backgroundColor": "blue"}}>
+                : <Tooltip title={`${selection + 1}/${definition.text.length}`} placement="right" open style={{"backgroundColor": "blue"}}>
                     <Typography 
                         className={classes.definition}
                         onClick={() => this.handleClick(id)}
                     >
-                        {definitions[id].text[selection]}
+                        {definition.text[selection]}
                     </Typography>
                 </Tooltip>
 
