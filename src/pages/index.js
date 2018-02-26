@@ -7,7 +7,7 @@ import { withStyles } from 'material-ui/styles';
 import withRoot from '../withRoot';
 import Hidden from 'material-ui/Hidden';
 //3rd Party
-
+import { find, indexOf } from 'lodash';
 
 const baseUrl = `https://api.wordnik.com/v4/word.json/`;
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -32,6 +32,7 @@ class Index extends React.Component {
       originalDefinitions: [],
       isLoading: false,
       error: '',
+      isShuffled: false,
     };
   }
 
@@ -61,14 +62,17 @@ class Index extends React.Component {
 
   shuffleDefinitions = () => {
     this.setState({ definitions: [...this.state.definitions].sort(() => (Math.random() - 0.5)) })
-    console.log(this.state.definitions);
+    this.setState({isShuffled: true});
   }
 
   cycleDefinition = (id) => {
     const definitions = [...this.state.definitions];
-    definitions[id].selection < definitions[id].text.length - 1
-      ? definitions[id].selection += 1
-      : definitions[id].selection = 0;
+    const definition = find(definitions, {id});
+    definition.selection < definition.text.length - 1
+      ? definition.selection += 1
+      : definition.selection = 0;
+    const index = indexOf(definitions, definition);
+    definitions[index] = definition;
     this.setState({definitions})
   }
 
@@ -112,7 +116,7 @@ class Index extends React.Component {
     const selection = 0;
     // initialize this definition
     let definitions = [...this.state.definitions] || [];
-    let currentDefinition = definitions.filter(entry => entry.id === id);
+    let currentDefinition = find(definitions, {id});
     definitions = definitions.filter(entry => entry.id !== id);
     currentDefinition = {id, isLoading: true, selection};
     definitions.push(currentDefinition);
@@ -174,7 +178,7 @@ class Index extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { words, definitions, isLoading, quizLength } = this.state;
+    const { words, definitions, isLoading, quizLength, isShuffled } = this.state;
 
     return (
       <div className={classes.root}>
@@ -193,6 +197,7 @@ class Index extends React.Component {
             words={words}
             definitions={definitions}
             isLoading={isLoading}
+            isShuffled={isShuffled}
             quizLength={quizLength}
             toggleEditing={this.toggleEditing}
             generateQuiz={this.generateQuiz}

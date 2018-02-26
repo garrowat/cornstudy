@@ -32,9 +32,8 @@ class Definition extends React.Component {
     }
 
     render() {
-        const {definitions, id, classes} = this.props;
+        const {definitions, id, classes, isShuffled} = this.props;
         const definition = find(definitions, {id});
-        console.log(definition);
         const selection = 
             definition  
             ? definition.selection
@@ -44,12 +43,16 @@ class Definition extends React.Component {
         return (
                 !definition || !definition.text || definition.isLoading
                 ? <Loading thickness={3} />
-                : <Tooltip title={`${selection + 1}/${definition.text.length}`} placement="right" open style={{"backgroundColor": "blue"}}>
+                : <Tooltip title={`${selection + 1}/${definition.text.length}`} placement="right" open >
                     <Typography 
                         className={classes.definition}
                         onClick={() => this.handleClick(id)}
                     >
-                        {definition.text[selection]}
+                        {
+                        isShuffled
+                        ? definitions[id].text[selection]
+                        : definition.text[selection]
+                        }
                     </Typography>
                 </Tooltip>
 

@@ -44,7 +44,8 @@ class Quiz extends React.Component {
         cycleDefinition, 
         toggleEditing,
         setWord,
-        quizLength
+        quizLength,
+        isShuffled
     ) => {
         return (
             <TableWithLoading 
@@ -89,6 +90,7 @@ class Quiz extends React.Component {
                                     word={word.word}
                                     setDefinition={setDefinition}
                                     cycleDefinition={cycleDefinition}
+                                    isShuffled={isShuffled}
                                     />
                                 </TableCellWithLoading>
                             </TableRow>
@@ -109,7 +111,8 @@ class Quiz extends React.Component {
             setDefinition, 
             cycleDefinition,
             setWord,
-            quizLength
+            quizLength,
+            isShuffled,
         } = this.props;
 
         return (
@@ -131,7 +134,8 @@ class Quiz extends React.Component {
                         cycleDefinition,
                         toggleEditing,
                         setWord,
-                        quizLength
+                        quizLength,
+                        isShuffled
                     )
                     : <div className={classes.root}>
                         <Typography variant="caption">
