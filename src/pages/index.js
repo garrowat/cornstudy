@@ -37,6 +37,7 @@ class Index extends React.Component {
   }
 
   generateQuiz = () => {
+    // Generates a random list of <Word>s and <Definition>s
     this.setState({ isLoading: true, words: [], definitions: [] })
     let id = 0;
 
@@ -63,9 +64,11 @@ class Index extends React.Component {
   shuffleDefinitions = () => {
     this.setState({ definitions: [...this.state.definitions].sort(() => (Math.random() - 0.5)) })
     this.setState({isShuffled: true});
+    console.log(this.state.definitions);
   }
 
   cycleDefinition = (id) => {
+    // Cycles through the available definitions for a given word
     const definitions = [...this.state.definitions];
     const definition = find(definitions, {id});
     definition.selection < definition.text.length - 1
@@ -77,10 +80,13 @@ class Index extends React.Component {
   }
 
   unshuffleDefinitions = (wordDefinitions) => {
+    // TODO
+    // Shows the "correct answers"
     this.setState( { definitions: this.state.originalDefinitions } )
   }
 
   setQuizLength = (newLength) => {
+    // TODO
     if (newLength < 1 || newLength > 100 || isNaN(newLength)) {
       newLength = 1;
     }
@@ -97,6 +103,7 @@ class Index extends React.Component {
   }
 
   toggleEditing = (id) => {
+    // Toggles editing for entries for a <Word> component
     const words = [...this.state.words] || [];
     const word = words[id];
     word.wasFocused = false;
@@ -106,6 +113,7 @@ class Index extends React.Component {
   }
 
   setWord = (id, word) => {
+    // Controls each <Word>'s textfield value
     let words = [...this.state.words] || [];
     words[id].wasFocused = true;
     words[id].word = word || '';
@@ -113,6 +121,7 @@ class Index extends React.Component {
   }
 
   setDefinition = (id, word) => {
+    // Queries and sets definition text, among other things, for each <Definition> element
     const selection = 0;
     // initialize this definition
     let definitions = [...this.state.definitions] || [];
@@ -139,23 +148,23 @@ class Index extends React.Component {
         
         definitions = definitions.filter(entry => entry.id !== id);
         currentDefinition = { id, text, isLoading: false, selection};
-        console.log(currentDefinition)
         definitions.push(currentDefinition);
         this.setState({ definitions });
       })
       .catch(function(error) {
-        definitions[id] = {...this.state.definitions, error};
         console.log('Error fetching definition: ' + error.message);
       })
   }
 
   clearDefinition = (i) => {
+    // TODO
     let definitions = [...this.state.definitions] || [];
     definitions[i] = '';
     this.setState({ definitions });
   }
 
   fieldChange = (i,e) => {
+    // Holdover from previous version, possible TODO
     const changeType = e.target.name;
     const newValue = e.target.value;
 
