@@ -33,12 +33,15 @@ class Definition extends React.Component {
 
     render() {
         const {definitions, id, classes, isShuffled} = this.props;
-        const definition = find(definitions, {id});
+        const definition =
+            isShuffled
+            ? definitions[id]
+            : find(definitions, {id})
+
         const selection = 
             definition  
             ? definition.selection
-            : 0;
-        
+            : 0;       
 
         return (
                 !definition || !definition.text || definition.isLoading
@@ -50,8 +53,8 @@ class Definition extends React.Component {
                     >
                         {
                         isShuffled
-                        ? definitions[id].text[selection]
-                        : definition.text[selection]
+                        ? definitions[id].text[selection] // sort by list order
+                        : definition.text[selection] // sort by object id property
                         }
                     </Typography>
                 </Tooltip>

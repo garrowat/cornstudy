@@ -81,6 +81,7 @@ class Quiz extends React.Component {
                                     wasFocused={word.wasFocused}
                                     setDefinition={setDefinition}
                                     toggleEditing={toggleEditing}
+                                    isShuffled={isShuffled}
                                     />
                                 </TableCell>
                                 <TableCellWithLoading numeric className={classes.definition}>

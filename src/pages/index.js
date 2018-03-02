@@ -70,7 +70,9 @@ class Index extends React.Component {
   cycleDefinition = (id) => {
     // Cycles through the available definitions for a given word
     const definitions = [...this.state.definitions];
-    const definition = find(definitions, {id});
+    const definition = this.state.isShuffled
+      ? definitions[id]
+      : find(definitions, {id})
     definition.selection < definition.text.length - 1
       ? definition.selection += 1
       : definition.selection = 0;
@@ -125,9 +127,11 @@ class Index extends React.Component {
     const selection = 0;
     // initialize this definition
     let definitions = [...this.state.definitions] || [];
+    console.log(id);
     let currentDefinition = find(definitions, {id});
+    console.log(currentDefinition)
     definitions = definitions.filter(entry => entry.id !== id);
-    currentDefinition = {id, isLoading: true, selection};
+    currentDefinition = {id, text: [''] , isLoading: true, selection};
     definitions.push(currentDefinition);
     this.setState({ definitions });
 
