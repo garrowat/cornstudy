@@ -6,6 +6,7 @@ import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 import withRoot from '../withRoot';
 import Hidden from 'material-ui/Hidden';
+import Button from 'material-ui/Button';
 //3rd Party
 import { find, indexOf } from 'lodash';
 
@@ -19,6 +20,13 @@ const styles = theme => ({
     textAlign: 'center',
     paddingTop: theme.spacing.unit * 2.5,
     paddingBottom: theme.spacing.unit * 3,
+  },
+  homeLink: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    margin: theme.spacing.unit,
+    fontSize: '20%',
   },
 });
 
@@ -195,6 +203,13 @@ class Index extends React.Component {
 
     return (
       <div className={classes.root}>
+        <div className={classes.homeLink}>
+          <a href="https://garrettwatson.io" style={{textDecoration: "none"}}>
+            <Button color="secondary">
+              Go to garrettwatson.io
+            </Button>
+          </a>
+        </div>
           <Hidden smDown>
             <Typography variant="display4">
               CornStudy
@@ -220,6 +235,14 @@ class Index extends React.Component {
             cycleDefinition={this.cycleDefinition}
             unshuffleDefinitions={this.unshuffleDefinitions}
           />
+          <Typography 
+          variant="caption" 
+          style={{
+            marginTop: "5px",
+          }}
+          >
+            © 2018 Garrett Watson. All rights reserved.
+          </Typography>
       </div>
     );
   }
